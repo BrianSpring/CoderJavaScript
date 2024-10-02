@@ -6,33 +6,40 @@ function mostrarError(mensaje) {
         text: mensaje
     });
 }
-document.getElementById('formAgregarProducto').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const nombre = document.getElementById('nuevoNombre').value;
-    const precio = parseFloat(document.getElementById('nuevoPrecio').value);
-    const imagen = document.getElementById('nuevoImagen').value;
 
-    if (!nombre || isNaN(precio) || !imagen) {
-        Swal.fire('Error', 'Por favor completa todos los campos correctamente.', 'error');
-        return;
+// Evento para el formulario de agregar producto
+document.addEventListener('DOMContentLoaded', () => {
+    const formAgregarProducto = document.getElementById('formAgregarProducto');
+    if (formAgregarProducto) {
+        formAgregarProducto.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('nuevoNombre').value;
+            const precio = parseFloat(document.getElementById('nuevoPrecio').value);
+            const imagen = document.getElementById('nuevoImagen').value;
+
+            if (!nombre || isNaN(precio) || !imagen) {
+                mostrarError('Por favor completa todos los campos correctamente.');
+                return;
+            }
+
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const nuevoId = productos.length ? productos[productos.length - 1].id + 1 : 1;
+
+            const nuevoProducto = {
+                id: nuevoId,
+                nombre: nombre,
+                precio: precio,
+                imagen: imagen
+            };
+
+            productos.push(nuevoProducto);
+            localStorage.setItem('productos', JSON.stringify(productos)); // Guardar productos actualizados en localStorage
+
+            mostrarProductos(); // Mostrar productos actualizados en la interfaz
+            Swal.fire('Producto agregado', 'El producto fue agregado correctamente.', 'success');
+            formAgregarProducto.reset(); // Limpiar el formulario
+        });
     }
-
-    const productos = JSON.parse(localStorage.getItem('productos')) || [];
-    const nuevoId = productos.length ? productos[productos.length - 1].id + 1 : 1;
-
-    const nuevoProducto = {
-        id: nuevoId,
-        nombre: nombre,
-        precio: precio,
-        imagen: imagen
-    };
-
-    productos.push(nuevoProducto);
-    localStorage.setItem('productos', JSON.stringify(productos)); // Guardar productos actualizados en localStorage
-
-    mostrarProductos(); // Mostrar productos actualizados en la interfaz
-    Swal.fire('Producto agregado', 'El producto fue agregado correctamente.', 'success');
-    document.getElementById('formAgregarProducto').reset(); // Limpiar el formulario
 });
 
 // Función para mostrar productos
