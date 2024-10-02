@@ -131,6 +131,32 @@ function mostrarHistorial() {
         historialContainer.appendChild(compraDiv);
     });
 }
+// Función para mostrar productos en el index.html
+function mostrarProductosIndex() {
+    const productosContainer = document.querySelector('.productos-container');
+    productosContainer.innerHTML = ''; // Limpiar contenido anterior
+    const productos = JSON.parse(localStorage.getItem('productos')) || []; // Cargar productos del localStorage
+
+    productos.forEach(producto => {
+        const productoDiv = document.createElement('div');
+        productoDiv.classList.add('producto-card');
+        productoDiv.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-imagen">
+            <p class="producto-nombre">${producto.nombre}</p>
+            <p class="producto-precio">$${producto.precio}</p>
+            <button class="agregarCarrito" data-id="${producto.id}">Agregar al carrito</button>
+        `;
+        productosContainer.appendChild(productoDiv);
+    });
+
+    // Añadir eventos a los botones de agregar al carrito
+    document.querySelectorAll('.agregarCarrito').forEach(button => {
+        button.addEventListener('click', agregarAlCarrito);
+    });
+}
+
+// Cargar productos al inicio en el index.html
+document.addEventListener('DOMContentLoaded', mostrarProductosIndex);
 
 // Inicialización: cargar productos, mostrar carrito y mostrar historial
 cargarProductos();
