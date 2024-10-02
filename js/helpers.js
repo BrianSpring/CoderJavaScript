@@ -59,6 +59,3 @@ function mostrarProductos() {
         productosContainer.appendChild(productoDiv);
     });
 }
-
-// Cargar productos al inicio
-document.addEventListener('DOMContentLoaded', mostrarProductos);
