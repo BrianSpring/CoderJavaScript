@@ -15,88 +15,73 @@ h1, h2 {
     color: #333;
 }
 
-/* Secciones */
-.productos-seccion, .carrito-seccion, .historial-seccion {
-    margin: 20px auto;
-    max-width: 900px;
-}
-
-/* Contenedor de productos */
-.productos-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-}
-
-/* Estilo para las cards */
-.producto-card {
-    width: 200px;
-    padding: 10px;
-    border: 1px solid #ddd;
+/* Formulario de agregar producto */
+form {
+    background-color: #fff;
+    padding: 20px;
     border-radius: 8px;
-    background-color: #fff;
-    text-align: center;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-/* Imagen del producto */
-.producto-imagen {
-    width: 100px;
-    height: auto;
-    margin-bottom: 10px;
-}
-
-/* Texto dentro de la card */
-.producto-nombre, .producto-precio {
-    margin: 5px 0;
-    font-size: 1rem;
-}
-
-/* Estilo del botón para agregar al carrito */
-.agregarCarrito {
-    padding: 8px 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.agregarCarrito:hover {
-    background-color: #218838;
-}
-
-/* Contenedor del carrito */
-.carrito-container div {
+/* Estilo de los campos de entrada */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    background-color: #fff;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-/* Botón de comprar */
-.boton-comprar {
-    padding: 10px 20px;
-    background-color: #007bff;
+/* Botón de agregar producto */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: block;
-    margin: 20px auto;
 }
 
-.boton-comprar:hover {
-    background-color: #0056b3;
+button:hover {
+    background-color: #218838;
 }
 
-/* Historial de compras */
-.historial-container div {
+/* Sección de productos actuales */
+.productos-container {
+    margin-top: 20px;
+}
+
+/* Estilo para cada producto en la lista */
+.producto-card {
     padding: 10px;
     border: 1px solid #ddd;
-    margin-bottom: 10px;
+    border-radius: 8px;
     background-color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.producto-nombre {
+    flex: 1;
+}
+
+.boton-eliminar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.boton-eliminar:hover {
+    background-color: #c82333;
 }
 
 /* Footer */
