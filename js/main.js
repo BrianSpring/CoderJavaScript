@@ -8,20 +8,33 @@ async function cargarProductos() {
     try {
         const response = await fetch('productos.json');
         if (!response.ok) throw new Error('Error al cargar los productos');
-        productos = await response.json();
-        mostrarProductos();
+        const productosJson = await response.json();
+        productos = productosJson; // Asignar productos del JSON
+
+        // Cargar productos del localStorage
+        const productosLocalStorage = JSON.parse(localStorage.getItem('productos')) || [];
+        
+        // Combinar ambos arrays, asegurando que no haya duplicados y generando IDs únicos
+        productos = [...productos, ...productosLocalStorage];
+        productos = productos.map((producto, index) => ({
+            ...producto,
+            id: index + 1 // Asignar IDs únicos
+        }));
+
+        mostrarProductos(); // Mostrar productos en la interfaz
     } catch (error) {
         mostrarError('No se pudieron cargar los productos. Intenta más tarde.');
     }
 }
 
-// Función para mostrar productos
+// Función para mostrar productos en el index.html
 function mostrarProductos() {
     const productosContainer = document.querySelector('.productos-container');
-    productosContainer.innerHTML = '';  // Limpiar contenido anterior
+    productosContainer.innerHTML = ''; // Limpiar contenido anterior
+
     productos.forEach(producto => {
         const productoDiv = document.createElement('div');
-        productoDiv.classList.add('producto-card');  // Agregar clase a la card
+        productoDiv.classList.add('producto-card');
         productoDiv.innerHTML = `
             <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-imagen">
             <p class="producto-nombre">${producto.nombre}</p>
@@ -39,17 +52,22 @@ function mostrarProductos() {
 
 // Función para agregar productos al carrito
 function agregarAlCarrito(event) {
-    const id = parseInt(event.target.getAttribute('data-id'));
-    const producto = productos.find(p => p.id === id);
-    carrito.push(producto);
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    mostrarCarrito();
+    const id = parseInt(event.target.getAttribute('data-id')); // ID del producto desde la interfaz
+    const producto = productos.find(p => p.id === id); // Buscar el producto por ID
+    console.log('Producto seleccionado:', producto); // Depurar producto agregado
+    if (producto) {
+        carrito.push(producto); // Agregar al carrito
+        localStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar en localStorage
+        mostrarCarrito(); // Actualizar la vista del carrito
+    } else {
+        console.error('Producto no encontrado.');
+    }
 }
 
 // Función para mostrar el carrito
 function mostrarCarrito() {
     const carritoContainer = document.querySelector('.carrito-container');
-    carritoContainer.innerHTML = '';  // Limpiar contenido anterior
+    carritoContainer.innerHTML = ''; // Limpiar contenido anterior
     carrito.forEach((producto, index) => {
         const productoDiv = document.createElement('div');
         productoDiv.innerHTML = `
@@ -118,7 +136,7 @@ function registrarCompra() {
 // Función para mostrar el historial de compras
 function mostrarHistorial() {
     const historialContainer = document.querySelector('.historial-container');
-    historialContainer.innerHTML = '';  // Limpiar contenido anterior
+    historialContainer.innerHTML = ''; // Limpiar contenido anterior
     historial.forEach((compra, index) => {
         const compraDiv = document.createElement('div');
         compraDiv.innerHTML = `
@@ -131,35 +149,11 @@ function mostrarHistorial() {
         historialContainer.appendChild(compraDiv);
     });
 }
-// Función para mostrar productos en el index.html
-function mostrarProductosIndex() {
-    const productosContainer = document.querySelector('.productos-container');
-    productosContainer.innerHTML = ''; // Limpiar contenido anterior
-    const productos = JSON.parse(localStorage.getItem('productos')) || []; // Cargar productos del localStorage
 
-    productos.forEach(producto => {
-        const productoDiv = document.createElement('div');
-        productoDiv.classList.add('producto-card');
-        productoDiv.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-imagen">
-            <p class="producto-nombre">${producto.nombre}</p>
-            <p class="producto-precio">$${producto.precio}</p>
-            <button class="agregarCarrito" data-id="${producto.id}">Agregar al carrito</button>
-        `;
-        productosContainer.appendChild(productoDiv);
-    });
+// Cargar productos al inicio
+document.addEventListener('DOMContentLoaded', cargarProductos); // Cargar productos desde JSON y localStorage al inicio
 
-    // Añadir eventos a los botones de agregar al carrito
-    document.querySelectorAll('.agregarCarrito').forEach(button => {
-        button.addEventListener('click', agregarAlCarrito);
-    });
-}
-
-// Cargar productos al inicio en el index.html
-document.addEventListener('DOMContentLoaded', mostrarProductosIndex);
-
-// Inicialización: cargar productos, mostrar carrito y mostrar historial
-cargarProductos();
+// Inicialización: mostrar carrito y mostrar historial
 mostrarCarrito();
 mostrarHistorial();
 
