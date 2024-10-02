@@ -13,8 +13,14 @@ async function cargarProductos() {
 
         // Cargar productos del localStorage
         const productosLocalStorage = JSON.parse(localStorage.getItem('productos')) || [];
-        // Combinar ambos arrays, asegurando que no haya duplicados
+        
+        // Combinar ambos arrays, asegurando que no haya duplicados y generando IDs únicos
         productos = [...productos, ...productosLocalStorage];
+        productos = productos.map((producto, index) => ({
+            ...producto,
+            id: index + 1 // Asignar IDs únicos
+        }));
+
         mostrarProductos(); // Mostrar productos en la interfaz
     } catch (error) {
         mostrarError('No se pudieron cargar los productos. Intenta más tarde.');
@@ -48,7 +54,7 @@ function mostrarProductos() {
 function agregarAlCarrito(event) {
     const id = parseInt(event.target.getAttribute('data-id')); // ID del producto desde la interfaz
     const producto = productos.find(p => p.id === id); // Buscar el producto por ID
-    console.log(producto); // Depuración: Verificar el producto que se está agregando
+    console.log('Producto seleccionado:', producto); // Depurar producto agregado
     if (producto) {
         carrito.push(producto); // Agregar al carrito
         localStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar en localStorage
