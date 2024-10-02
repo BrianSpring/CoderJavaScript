@@ -46,11 +46,15 @@ function mostrarProductos() {
 
 // Función para agregar productos al carrito
 function agregarAlCarrito(event) {
-    const id = parseInt(event.target.getAttribute('data-id'));
-    const producto = productos.find(p => p.id === id);
-    carrito.push(producto);
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    mostrarCarrito();
+    const id = parseInt(event.target.getAttribute('data-id')); // ID del producto desde la interfaz
+    const producto = productos.find(p => p.id === id); // Buscar el producto por ID
+    if (producto) {
+        carrito.push(producto); // Agregar al carrito
+        localStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar en localStorage
+        mostrarCarrito(); // Actualizar la vista del carrito
+    } else {
+        console.error('Producto no encontrado.');
+    }
 }
 
 // Función para mostrar el carrito
