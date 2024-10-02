@@ -34,3 +34,8 @@ document.getElementById('formAgregarProducto').addEventListener('submit', functi
     Swal.fire('Producto agregado', 'El producto fue agregado correctamente.', 'success');
     document.getElementById('formAgregarProducto').reset(); // Limpiar el formulario
 });
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('formAgregarProducto').addEventListener('submit', function(event) {
+        // Tu código aquí...
+    });
+});
