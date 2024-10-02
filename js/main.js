@@ -48,6 +48,7 @@ function mostrarProductos() {
 function agregarAlCarrito(event) {
     const id = parseInt(event.target.getAttribute('data-id')); // ID del producto desde la interfaz
     const producto = productos.find(p => p.id === id); // Buscar el producto por ID
+    console.log(producto); // Depuración: Verificar el producto que se está agregando
     if (producto) {
         carrito.push(producto); // Agregar al carrito
         localStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar en localStorage
