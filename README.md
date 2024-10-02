@@ -1,5 +1,6 @@
 # CoderJavaScript
 Presentación del Proyecto Final
+
 Introducción
 Hola a todos, mi nombre es Brian, y hoy tengo el placer de presentarles mi proyecto final de JavaScript en CoderHouse. El objetivo de este proyecto es desarrollar una aplicación web que permita a los usuarios comprar productos en línea, similar a Mercado Libre, ofreciendo una experiencia de usuario fluida y atractiva.
 
